@@ -1,0 +1,2451 @@
+SCREENS: --- Screen 1: Home Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .property-card {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+      .category-pill {
+        border-radius: 20px;
+        transition: all 0.3s ease;
+      }
+      .category-pill:hover,
+      .category-pill.active {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Header -->
+      <div class="px-6 pt-12 pb-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h1 class="text-2xl font-bold text-black">EmlakBul</h1>
+            <p class="text-sm text-gray-500">Find your dream property</p>
+          </div>
+          <div class="flex space-x-3">
+            <button class="p-2 bg-gray-100 rounded-full">
+              <i class="ri-notification-3-line text-black"></i>
+            </button>
+            <button class="p-2 bg-gray-100 rounded-full">
+              <i class="ri-bookmark-line text-black"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="px-6 mb-4">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search for properties..."
+            class="w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black"
+          />
+          <i class="ri-search-line absolute left-4 top-3.5 text-gray-400"></i>
+          <button
+            class="absolute right-3 top-2.5 p-1 bg-white rounded-lg shadow-sm"
+          >
+            <i class="ri-equalizer-line text-black"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="px-4 mb-6">
+        <div class="flex space-x-3 overflow-x-auto py-2 no-scrollbar">
+          <button
+            class="category-pill active whitespace-nowrap px-4 py-2 bg-white border border-gray-200 text-black font-medium text-sm"
+          >
+            All
+          </button>
+          <button
+            class="category-pill whitespace-nowrap px-4 py-2 bg-white border border-gray-200 text-black font-medium text-sm"
+          >
+            For Sale
+          </button>
+          <button
+            class="category-pill whitespace-nowrap px-4 py-2 bg-white border border-gray-200 text-black font-medium text-sm"
+          >
+            For Rent
+          </button>
+          <button
+            class="category-pill whitespace-nowrap px-4 py-2 bg-white border border-gray-200 text-black font-medium text-sm"
+          >
+            Apartments
+          </button>
+          <button
+            class="category-pill whitespace-nowrap px-4 py-2 bg-white border border-gray-200 text-black font-medium text-sm"
+          >
+            Houses
+          </button>
+        </div>
+      </div>
+
+      <!-- Featured Properties -->
+      <div class="px-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-bold text-black">Featured Properties</h2>
+          <button class="text-sm font-medium text-black">See All</button>
+        </div>
+
+        <div class="property-card bg-white mb-4">
+          <div class="relative">
+            <img
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+              alt="Modern House"
+              class="w-full h-48 object-cover"
+            />
+            <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded-lg">
+              <span class="text-xs font-bold text-black">For Sale</span>
+            </div>
+            <button class="absolute top-3 right-3 p-2 bg-white rounded-full">
+              <i class="ri-heart-line text-black"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between mb-2">
+              <h3 class="font-bold text-black">₺2,450,000</h3>
+              <div class="flex items-center">
+                <i class="ri-star-fill text-yellow-400 mr-1"></i>
+                <span class="text-sm text-black">4.8</span>
+              </div>
+            </div>
+            <h4 class="font-medium text-black mb-2">Modern Villa with Pool</h4>
+            <div class="flex items-center text-gray-500 mb-3">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span class="text-sm">Beşiktaş, Istanbul</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <div class="flex items-center">
+                <i class="ri-hotel-bed-line mr-1 text-black"></i>
+                <span class="text-black">4 Beds</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-shower-line mr-1 text-black"></i>
+                <span class="text-black">3 Baths</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-ruler-line mr-1 text-black"></i>
+                <span class="text-black">240 m²</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="property-card bg-white">
+          <div class="relative">
+            <img
+              src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+              alt="Luxury Apartment"
+              class="w-full h-48 object-cover"
+            />
+            <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded-lg">
+              <span class="text-xs font-bold text-black">For Rent</span>
+            </div>
+            <button class="absolute top-3 right-3 p-2 bg-white rounded-full">
+              <i class="ri-heart-line text-black"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between mb-2">
+              <h3 class="font-bold text-black">₺12,500/mo</h3>
+              <div class="flex items-center">
+                <i class="ri-star-fill text-yellow-400 mr-1"></i>
+                <span class="text-sm text-black">4.6</span>
+              </div>
+            </div>
+            <h4 class="font-medium text-black mb-2">
+              Luxury Apartment with View
+            </h4>
+            <div class="flex items-center text-gray-500 mb-3">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span class="text-sm">Kadıköy, Istanbul</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <div class="flex items-center">
+                <i class="ri-hotel-bed-line mr-1 text-black"></i>
+                <span class="text-black">3 Beds</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-shower-line mr-1 text-black"></i>
+                <span class="text-black">2 Baths</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-ruler-line mr-1 text-black"></i>
+                <span class="text-black">120 m²</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nearby Properties -->
+      <div class="px-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-bold text-black">Nearby Properties</h2>
+          <button class="text-sm font-medium text-black">See All</button>
+        </div>
+
+        <div class="flex space-x-4 overflow-x-auto pb-4 no-scrollbar">
+          <div class="property-card bg-white min-w-[220px]">
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                alt="Apartment"
+                class="w-full h-32 object-cover"
+              />
+              <div class="absolute top-2 left-2 bg-white px-2 py-1 rounded-lg">
+                <span class="text-xs font-bold text-black">For Sale</span>
+              </div>
+            </div>
+            <div class="p-3">
+              <h3 class="font-bold text-black text-sm">₺1,850,000</h3>
+              <h4 class="font-medium text-black text-sm mb-1">
+                Cozy Apartment
+              </h4>
+              <div class="flex items-center text-gray-500 mb-2">
+                <i class="ri-map-pin-line mr-1 text-xs"></i>
+                <span class="text-xs">Şişli, Istanbul</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <div class="flex items-center">
+                  <i class="ri-hotel-bed-line mr-1 text-black"></i>
+                  <span class="text-black">2</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-shower-line mr-1 text-black"></i>
+                  <span class="text-black">1</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-ruler-line mr-1 text-black"></i>
+                  <span class="text-black">85 m²</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="property-card bg-white min-w-[220px]">
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                alt="Office Space"
+                class="w-full h-32 object-cover"
+              />
+              <div class="absolute top-2 left-2 bg-white px-2 py-1 rounded-lg">
+                <span class="text-xs font-bold text-black">For Rent</span>
+              </div>
+            </div>
+            <div class="p-3">
+              <h3 class="font-bold text-black text-sm">₺8,500/mo</h3>
+              <h4 class="font-medium text-black text-sm mb-1">Office Space</h4>
+              <div class="flex items-center text-gray-500 mb-2">
+                <i class="ri-map-pin-line mr-1 text-xs"></i>
+                <span class="text-xs">Levent, Istanbul</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <div class="flex items-center">
+                  <i class="ri-door-line mr-1 text-black"></i>
+                  <span class="text-black">4</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-user-line mr-1 text-black"></i>
+                  <span class="text-black">12</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-ruler-line mr-1 text-black"></i>
+                  <span class="text-black">150 m²</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="property-card bg-white min-w-[220px]">
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+                alt="Villa"
+                class="w-full h-32 object-cover"
+              />
+              <div class="absolute top-2 left-2 bg-white px-2 py-1 rounded-lg">
+                <span class="text-xs font-bold text-black">For Sale</span>
+              </div>
+            </div>
+            <div class="p-3">
+              <h3 class="font-bold text-black text-sm">₺3,950,000</h3>
+              <h4 class="font-medium text-black text-sm mb-1">Family Villa</h4>
+              <div class="flex items-center text-gray-500 mb-2">
+                <i class="ri-map-pin-line mr-1 text-xs"></i>
+                <span class="text-xs">Beylikdüzü, Istanbul</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <div class="flex items-center">
+                  <i class="ri-hotel-bed-line mr-1 text-black"></i>
+                  <span class="text-black">5</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-shower-line mr-1 text-black"></i>
+                  <span class="text-black">3</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-ruler-line mr-1 text-black"></i>
+                  <span class="text-black">320 m²</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation -->
+      <div class="mt-auto border-t border-gray-200">
+        <div class="flex justify-between px-6 py-4">
+          <button class="flex flex-col items-center">
+            <i class="ri-home-5-fill text-xl text-black"></i>
+            <span class="text-xs mt-1 text-black">Home</span>
+          </button>
+          <button class="flex flex-col items-center">
+            <i class="ri-search-line text-xl text-gray-400"></i>
+            <span class="text-xs mt-1 text-gray-400">Search</span>
+          </button>
+          <button class="flex flex-col items-center">
+            <div
+              class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center -mt-6"
+            >
+              <i class="ri-add-line text-2xl text-white"></i>
+            </div>
+          </button>
+          <button class="flex flex-col items-center">
+            <i class="ri-message-2-line text-xl text-gray-400"></i>
+            <span class="text-xs mt-1 text-gray-400">Messages</span>
+          </button>
+          <button class="flex flex-col items-center">
+            <i class="ri-user-line text-xl text-gray-400"></i>
+            <span class="text-xs mt-1 text-gray-400">Profile</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 2: Property Detail Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Property Detail Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .image-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+      .image-indicator.active {
+        background-color: white;
+        width: 20px;
+        border-radius: 10px;
+      }
+      .amenity-item {
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Property Images -->
+      <div class="relative">
+        <img
+          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+          alt="Modern House"
+          class="w-full h-72 object-cover"
+        />
+
+        <!-- Navigation Buttons -->
+        <button
+          class="absolute top-12 left-6 p-2 bg-white rounded-full shadow-md"
+        >
+          <i class="ri-arrow-left-s-line text-black"></i>
+        </button>
+        <button
+          class="absolute top-12 right-6 p-2 bg-white rounded-full shadow-md"
+        >
+          <i class="ri-heart-line text-black"></i>
+        </button>
+
+        <!-- Image Indicators -->
+        <div
+          class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2"
+        >
+          <div class="image-indicator active"></div>
+          <div class="image-indicator"></div>
+          <div class="image-indicator"></div>
+          <div class="image-indicator"></div>
+        </div>
+      </div>
+
+      <!-- Property Details -->
+      <div class="px-6 py-5 bg-white">
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <h1 class="text-xl font-bold text-black">Modern Villa with Pool</h1>
+            <div class="flex items-center text-gray-500">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span class="text-sm">Beşiktaş, Istanbul</span>
+            </div>
+          </div>
+          <div class="bg-gray-100 px-3 py-1 rounded-lg">
+            <span class="text-sm font-bold text-black">For Sale</span>
+          </div>
+        </div>
+
+        <div class="flex justify-between mt-4 mb-5">
+          <div class="flex items-center">
+            <i class="ri-hotel-bed-line mr-2 text-lg text-black"></i>
+            <div>
+              <p class="text-xs text-gray-500">Bedrooms</p>
+              <p class="font-medium text-black">4</p>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <i class="ri-shower-line mr-2 text-lg text-black"></i>
+            <div>
+              <p class="text-xs text-gray-500">Bathrooms</p>
+              <p class="font-medium text-black">3</p>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <i class="ri-ruler-line mr-2 text-lg text-black"></i>
+            <div>
+              <p class="text-xs text-gray-500">Area</p>
+              <p class="font-medium text-black">240 m²</p>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <i class="ri-building-line mr-2 text-lg text-black"></i>
+            <div>
+              <p class="text-xs text-gray-500">Floors</p>
+              <p class="font-medium text-black">2</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-100 pt-5">
+          <h2 class="text-lg font-bold text-black mb-3">Price</h2>
+          <div class="flex items-center">
+            <h3 class="text-2xl font-bold text-black mr-2">₺2,450,000</h3>
+            <span class="text-sm text-gray-500">(₺10,208/m²)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="px-6 py-5 bg-gray-50">
+        <h2 class="text-lg font-bold text-black mb-3">Description</h2>
+        <p class="text-sm text-black leading-relaxed">
+          This beautiful modern villa offers luxurious living with a private
+          pool and garden. The property features 4 spacious bedrooms, 3
+          bathrooms, a large living area, and a fully equipped kitchen with
+          high-end appliances. Located in the prestigious Beşiktaş district, it
+          provides easy access to shopping centers, restaurants, and public
+          transportation.
+        </p>
+      </div>
+
+      <!-- Amenities -->
+      <div class="px-6 py-5 bg-white">
+        <h2 class="text-lg font-bold text-black mb-4">Amenities</h2>
+        <div class="grid grid-cols-3 gap-3">
+          <div
+            class="amenity-item flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-wifi-line text-xl text-black mb-2"></i>
+            <span class="text-xs text-black text-center">Free WiFi</span>
+          </div>
+          <div
+            class="amenity-item flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-car-line text-xl text-black mb-2"></i>
+            <span class="text-xs text-black text-center">Parking</span>
+          </div>
+          <div
+            class="amenity-item flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-water-flash-line text-xl text-black mb-2"></i>
+            <span class="text-xs text-black text-center">Swimming Pool</span>
+          </div>
+          <div
+            class="amenity-item flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-shield-check-line text-xl text-black mb-2"></i>
+            <span class="text-xs text-black text-center">Security</span>
+          </div>
+          <div
+            class="amenity-item flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-home-gear-line text-xl text-black mb-2"></i>
+            <span class="text-xs text-black text-center">Smart Home</span>
+          </div>
+          <div
+            class="amenity-item flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-plant-line text-xl text-black mb-2"></i>
+            <span class="text-xs text-black text-center">Garden</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="px-6 py-5 bg-gray-50">
+        <h2 class="text-lg font-bold text-black mb-3">Location</h2>
+        <div
+          class="bg-gray-200 rounded-xl h-32 flex items-center justify-center mb-3"
+        >
+          <i class="ri-map-2-line text-3xl text-gray-400"></i>
+        </div>
+        <div class="flex items-center text-black">
+          <i class="ri-map-pin-line mr-2"></i>
+          <span class="text-sm">Nispetiye Cad. No:123, Beşiktaş, Istanbul</span>
+        </div>
+      </div>
+
+      <!-- Agent Info -->
+      <div class="px-6 py-5 bg-white">
+        <h2 class="text-lg font-bold text-black mb-3">Listed by</h2>
+        <div class="flex items-center">
+          <img
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            alt="Agent"
+            class="w-12 h-12 rounded-full object-cover mr-3"
+          />
+          <div>
+            <h3 class="font-medium text-black">Ahmet Yılmaz</h3>
+            <p class="text-sm text-gray-500">Premium Agent</p>
+          </div>
+          <div class="ml-auto flex space-x-2">
+            <button class="p-2 bg-gray-100 rounded-full">
+              <i class="ri-message-2-line text-black"></i>
+            </button>
+            <button class="p-2 bg-gray-100 rounded-full">
+              <i class="ri-phone-line text-black"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="mt-auto border-t border-gray-200 px-6 py-4 bg-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs text-gray-500">Price</p>
+            <p class="text-lg font-bold text-black">₺2,450,000</p>
+          </div>
+          <button
+            class="gradient-bg text-white px-8 py-3 rounded-xl font-medium"
+          >
+            Schedule a Tour
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 3: Search & Filter Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search & Filter Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .range-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+        cursor: pointer;
+      }
+      .filter-option {
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+      .filter-option.selected {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Header -->
+      <div class="px-6 pt-12 pb-4 bg-white">
+        <div class="flex items-center">
+          <button class="p-2 mr-4">
+            <i class="ri-arrow-left-s-line text-xl text-black"></i>
+          </button>
+          <h1 class="text-xl font-bold text-black">Search & Filters</h1>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="px-6 py-4 bg-white border-b border-gray-100">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search for location, property..."
+            class="w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black"
+          />
+          <i class="ri-search-line absolute left-4 top-3.5 text-gray-400"></i>
+        </div>
+      </div>
+
+      <!-- Property Type -->
+      <div class="px-6 py-5 bg-white border-b border-gray-100">
+        <h2 class="text-lg font-bold text-black mb-4">Property Type</h2>
+        <div class="grid grid-cols-3 gap-3">
+          <div
+            class="filter-option selected flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-home-4-line text-xl mb-2"></i>
+            <span class="text-xs text-center">All</span>
+          </div>
+          <div
+            class="filter-option flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-building-line text-xl mb-2 text-black"></i>
+            <span class="text-xs text-center text-black">Apartment</span>
+          </div>
+          <div
+            class="filter-option flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-home-5-line text-xl mb-2 text-black"></i>
+            <span class="text-xs text-center text-black">House</span>
+          </div>
+          <div
+            class="filter-option flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-building-4-line text-xl mb-2 text-black"></i>
+            <span class="text-xs text-center text-black">Villa</span>
+          </div>
+          <div
+            class="filter-option flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-store-2-line text-xl mb-2 text-black"></i>
+            <span class="text-xs text-center text-black">Office</span>
+          </div>
+          <div
+            class="filter-option flex flex-col items-center justify-center p-3 bg-gray-50"
+          >
+            <i class="ri-hotel-line text-xl mb-2 text-black"></i>
+            <span class="text-xs text-center text-black">Land</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price Range -->
+      <div class="px-6 py-5 bg-white border-b border-gray-100">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-bold text-black">Price Range</h2>
+          <span class="text-sm font-medium text-black">₺500K - ₺5M</span>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="10000000"
+          value="5000000"
+          class="range-slider w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        />
+        <div class="flex justify-between mt-2">
+          <span class="text-xs text-gray-500">₺0</span>
+          <span class="text-xs text-gray-500">₺10M+</span>
+        </div>
+      </div>
+
+      <!-- Bedrooms -->
+      <div class="px-6 py-5 bg-white border-b border-gray-100">
+        <h2 class="text-lg font-bold text-black mb-4">Bedrooms</h2>
+        <div class="flex space-x-3">
+          <button
+            class="filter-option selected w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            Any
+          </button>
+          <button
+            class="filter-option w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            1
+          </button>
+          <button
+            class="filter-option w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            2
+          </button>
+          <button
+            class="filter-option w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            3
+          </button>
+          <button
+            class="filter-option w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            4
+          </button>
+          <button
+            class="filter-option w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            5+
+          </button>
+        </div>
+      </div>
+
+      <!-- Bathrooms -->
+      <div class="px-6 py-5 bg-white border-b border-gray-100">
+        <h2 class="text-lg font-bold text-black mb-4">Bathrooms</h2>
+        <div class="flex space-x-3">
+          <button
+            class="filter-option selected w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            Any
+          </button>
+          <button
+            class="filter-option w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            1
+          </button>
+          <button
+            class="filter-option w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            2
+          </button>
+          <button
+            class="filter-option w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            3
+          </button>
+          <button
+            class="filter-option w-12 h-12 flex items-center justify-center bg-gray-50 text-black"
+          >
+            4+
+          </button>
+        </div>
+      </div>
+
+      <!-- Amenities -->
+      <div class="px-6 py-5 bg-white">
+        <h2 class="text-lg font-bold text-black mb-4">Amenities</h2>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="flex items-center">
+            <input type="checkbox" id="wifi" class="w-5 h-5 mr-3" />
+            <label for="wifi" class="text-sm text-black">WiFi</label>
+          </div>
+          <div class="flex items-center">
+            <input type="checkbox" id="parking" class="w-5 h-5 mr-3" />
+            <label for="parking" class="text-sm text-black">Parking</label>
+          </div>
+          <div class="flex items-center">
+            <input type="checkbox" id="pool" class="w-5 h-5 mr-3" />
+            <label for="pool" class="text-sm text-black">Swimming Pool</label>
+          </div>
+          <div class="flex items-center">
+            <input type="checkbox" id="security" class="w-5 h-5 mr-3" />
+            <label for="security" class="text-sm text-black">Security</label>
+          </div>
+          <div class="flex items-center">
+            <input type="checkbox" id="smart" class="w-5 h-5 mr-3" />
+            <label for="smart" class="text-sm text-black">Smart Home</label>
+          </div>
+          <div class="flex items-center">
+            <input type="checkbox" id="garden" class="w-5 h-5 mr-3" />
+            <label for="garden" class="text-sm text-black">Garden</label>
+          </div>
+          <div class="flex items-center">
+            <input type="checkbox" id="balcony" class="w-5 h-5 mr-3" />
+            <label for="balcony" class="text-sm text-black">Balcony</label>
+          </div>
+          <div class="flex items-center">
+            <input type="checkbox" id="elevator" class="w-5 h-5 mr-3" />
+            <label for="elevator" class="text-sm text-black">Elevator</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Buttons -->
+      <div class="mt-auto border-t border-gray-200 px-6 py-4 bg-white">
+        <div class="flex space-x-4">
+          <button
+            class="flex-1 py-3 border border-gray-300 rounded-xl font-medium text-black"
+          >
+            Reset
+          </button>
+          <button
+            class="flex-1 gradient-bg text-white py-3 rounded-xl font-medium"
+          >
+            Apply Filters
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 4: User Profile Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .profile-header {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .tab-button {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+      .tab-button.active::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+        border-radius: 3px;
+      }
+      .property-card {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Profile Header -->
+      <div class="profile-header px-6 pt-12 pb-6">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-xl font-bold text-white">Profile</h1>
+          <button class="p-2 bg-white bg-opacity-20 rounded-full">
+            <i class="ri-settings-3-line text-white"></i>
+          </button>
+        </div>
+
+        <div class="flex items-center">
+          <img
+            src="https://randomuser.me/api/portraits/women/44.jpg"
+            alt="Profile"
+            class="w-20 h-20 rounded-full object-cover border-4 border-white"
+          />
+          <div class="ml-4">
+            <h2 class="text-lg font-bold text-white">Ayşe Demir</h2>
+            <p class="text-sm text-white opacity-80">Premium Member</p>
+            <div class="flex items-center mt-1">
+              <i class="ri-map-pin-line text-white opacity-80 mr-1 text-sm"></i>
+              <span class="text-xs text-white opacity-80"
+                >Istanbul, Turkey</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="px-6 py-5 bg-white">
+        <div class="flex justify-between">
+          <div class="text-center">
+            <h3 class="text-xl font-bold text-black">12</h3>
+            <p class="text-xs text-gray-500">Listings</p>
+          </div>
+          <div class="text-center">
+            <h3 class="text-xl font-bold text-black">48</h3>
+            <p class="text-xs text-gray-500">Saved</p>
+          </div>
+          <div class="text-center">
+            <h3 class="text-xl font-bold text-black">156</h3>
+            <p class="text-xs text-gray-500">Views</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="px-6 py-4 bg-white border-b border-gray-100">
+        <div class="flex space-x-8">
+          <button class="tab-button active text-black font-medium">
+            My Listings
+          </button>
+          <button class="tab-button text-gray-400 font-medium">Saved</button>
+          <button class="tab-button text-gray-400 font-medium">History</button>
+        </div>
+      </div>
+
+      <!-- Listings -->
+      <div class="flex-1 bg-gray-50 p-6 overflow-y-auto">
+        <div class="property-card bg-white mb-4">
+          <div class="relative">
+            <img
+              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+              alt="Apartment"
+              class="w-full h-40 object-cover"
+            />
+            <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded-lg">
+              <span class="text-xs font-bold text-black">For Sale</span>
+            </div>
+            <div class="absolute top-3 right-3 flex space-x-2">
+              <button class="p-2 bg-white rounded-full">
+                <i class="ri-edit-line text-black"></i>
+              </button>
+              <button class="p-2 bg-white rounded-full">
+                <i class="ri-more-2-fill text-black"></i>
+              </button>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between mb-2">
+              <h3 class="font-bold text-black">₺1,850,000</h3>
+              <div class="flex items-center">
+                <i class="ri-eye-line text-gray-400 mr-1"></i>
+                <span class="text-sm text-gray-400">42</span>
+              </div>
+            </div>
+            <h4 class="font-medium text-black mb-2">
+              Modern Apartment in Şişli
+            </h4>
+            <div class="flex items-center text-gray-500 mb-3">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span class="text-sm">Şişli, Istanbul</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <div class="flex items-center">
+                <i class="ri-hotel-bed-line mr-1 text-black"></i>
+                <span class="text-black">2 Beds</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-shower-line mr-1 text-black"></i>
+                <span class="text-black">1 Bath</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-ruler-line mr-1 text-black"></i>
+                <span class="text-black">85 m²</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="property-card bg-white mb-4">
+          <div class="relative">
+            <img
+              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+              alt="Office Space"
+              class="w-full h-40 object-cover"
+            />
+            <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded-lg">
+              <span class="text-xs font-bold text-black">For Rent</span>
+            </div>
+            <div class="absolute top-3 right-3 flex space-x-2">
+              <button class="p-2 bg-white rounded-full">
+                <i class="ri-edit-line text-black"></i>
+              </button>
+              <button class="p-2 bg-white rounded-full">
+                <i class="ri-more-2-fill text-black"></i>
+              </button>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between mb-2">
+              <h3 class="font-bold text-black">₺8,500/mo</h3>
+              <div class="flex items-center">
+                <i class="ri-eye-line text-gray-400 mr-1"></i>
+                <span class="text-sm text-gray-400">28</span>
+              </div>
+            </div>
+            <h4 class="font-medium text-black mb-2">Office Space in Levent</h4>
+            <div class="flex items-center text-gray-500 mb-3">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span class="text-sm">Levent, Istanbul</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <div class="flex items-center">
+                <i class="ri-door-line mr-1 text-black"></i>
+                <span class="text-black">4 Rooms</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-user-line mr-1 text-black"></i>
+                <span class="text-black">12 People</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-ruler-line mr-1 text-black"></i>
+                <span class="text-black">150 m²</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="property-card bg-white">
+          <div class="relative">
+            <img
+              src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+              alt="Luxury Apartment"
+              class="w-full h-40 object-cover"
+            />
+            <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded-lg">
+              <span class="text-xs font-bold text-black">For Rent</span>
+            </div>
+            <div class="absolute top-3 right-3 flex space-x-2">
+              <button class="p-2 bg-white rounded-full">
+                <i class="ri-edit-line text-black"></i>
+              </button>
+              <button class="p-2 bg-white rounded-full">
+                <i class="ri-more-2-fill text-black"></i>
+              </button>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between mb-2">
+              <h3 class="font-bold text-black">₺12,500/mo</h3>
+              <div class="flex items-center">
+                <i class="ri-eye-line text-gray-400 mr-1"></i>
+                <span class="text-sm text-gray-400">86</span>
+              </div>
+            </div>
+            <h4 class="font-medium text-black mb-2">
+              Luxury Apartment in Kadıköy
+            </h4>
+            <div class="flex items-center text-gray-500 mb-3">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span class="text-sm">Kadıköy, Istanbul</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <div class="flex items-center">
+                <i class="ri-hotel-bed-line mr-1 text-black"></i>
+                <span class="text-black">3 Beds</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-shower-line mr-1 text-black"></i>
+                <span class="text-black">2 Baths</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-ruler-line mr-1 text-black"></i>
+                <span class="text-black">120 m²</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation -->
+      <div class="border-t border-gray-200">
+        <div class="flex justify-between px-6 py-4">
+          <button class="flex flex-col items-center">
+            <i class="ri-home-5-line text-xl text-gray-400"></i>
+            <span class="text-xs mt-1 text-gray-400">Home</span>
+          </button>
+          <button class="flex flex-col items-center">
+            <i class="ri-search-line text-xl text-gray-400"></i>
+            <span class="text-xs mt-1 text-gray-400">Search</span>
+          </button>
+          <button class="flex flex-col items-center">
+            <div
+              class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center -mt-6"
+            >
+              <i class="ri-add-line text-2xl text-white"></i>
+            </div>
+          </button>
+          <button class="flex flex-col items-center">
+            <i class="ri-message-2-line text-xl text-gray-400"></i>
+            <span class="text-xs mt-1 text-gray-400">Messages</span>
+          </button>
+          <button class="flex flex-col items-center">
+            <i class="ri-user-fill text-xl text-black"></i>
+            <span class="text-xs mt-1 text-black">Profile</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 5: Add Listing Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Listing Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .upload-box {
+        border: 2px dashed #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+      .upload-box:hover {
+        border-color: #ff8e53;
+      }
+      .property-type {
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+      .property-type.selected {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Header -->
+      <div class="px-6 pt-12 pb-4 bg-white">
+        <div class="flex items-center">
+          <button class="p-2 mr-4">
+            <i class="ri-arrow-left-s-line text-xl text-black"></i>
+          </button>
+          <h1 class="text-xl font-bold text-black">Add New Listing</h1>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="flex-1 overflow-y-auto">
+        <!-- Property Images -->
+        <div class="px-6 py-5 bg-white border-b border-gray-100">
+          <h2 class="text-lg font-bold text-black mb-4">Property Images</h2>
+          <div class="grid grid-cols-3 gap-3">
+            <div
+              class="upload-box aspect-square flex flex-col items-center justify-center p-2"
+            >
+              <i class="ri-add-line text-2xl text-gray-400 mb-1"></i>
+              <span class="text-xs text-gray-400 text-center">Add Photo</span>
+            </div>
+            <div
+              class="upload-box aspect-square flex flex-col items-center justify-center p-2"
+            >
+              <i class="ri-add-line text-2xl text-gray-400 mb-1"></i>
+              <span class="text-xs text-gray-400 text-center">Add Photo</span>
+            </div>
+            <div
+              class="upload-box aspect-square flex flex-col items-center justify-center p-2"
+            >
+              <i class="ri-add-line text-2xl text-gray-400 mb-1"></i>
+              <span class="text-xs text-gray-400 text-center">Add Photo</span>
+            </div>
+            <div
+              class="upload-box aspect-square flex flex-col items-center justify-center p-2"
+            >
+              <i class="ri-add-line text-2xl text-gray-400 mb-1"></i>
+              <span class="text-xs text-gray-400 text-center">Add Photo</span>
+            </div>
+            <div
+              class="upload-box aspect-square flex flex-col items-center justify-center p-2"
+            >
+              <i class="ri-add-line text-2xl text-gray-400 mb-1"></i>
+              <span class="text-xs text-gray-400 text-center">Add Photo</span>
+            </div>
+            <div
+              class="upload-box aspect-square flex flex-col items-center justify-center p-2"
+            >
+              <i class="ri-add-line text-2xl text-gray-400 mb-1"></i>
+              <span class="text-xs text-gray-400 text-center">Add Photo</span>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 mt-3">
+            You can upload up to 10 photos. First photo will be the cover.
+          </p>
+        </div>
+
+        <!-- Basic Information -->
+        <div class="px-6 py-5 bg-white border-b border-gray-100">
+          <h2 class="text-lg font-bold text-black mb-4">Basic Information</h2>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-black mb-2"
+              >Property Title</label
+            >
+            <input
+              type="text"
+              placeholder="e.g. Modern Apartment in City Center"
+              class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-black mb-2"
+              >Description</label
+            >
+            <textarea
+              placeholder="Describe your property..."
+              class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black h-24 resize-none"
+            ></textarea>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-black mb-2"
+              >Property Type</label
+            >
+            <div class="grid grid-cols-3 gap-3">
+              <div
+                class="property-type selected flex flex-col items-center justify-center p-3 bg-gray-50"
+              >
+                <i class="ri-building-line text-xl mb-1"></i>
+                <span class="text-xs text-center">Apartment</span>
+              </div>
+              <div
+                class="property-type flex flex-col items-center justify-center p-3 bg-gray-50"
+              >
+                <i class="ri-home-5-line text-xl mb-1 text-black"></i>
+                <span class="text-xs text-center text-black">House</span>
+              </div>
+              <div
+                class="property-type flex flex-col items-center justify-center p-3 bg-gray-50"
+              >
+                <i class="ri-building-4-line text-xl mb-1 text-black"></i>
+                <span class="text-xs text-center text-black">Villa</span>
+              </div>
+              <div
+                class="property-type flex flex-col items-center justify-center p-3 bg-gray-50"
+              >
+                <i class="ri-store-2-line text-xl mb-1 text-black"></i>
+                <span class="text-xs text-center text-black">Office</span>
+              </div>
+              <div
+                class="property-type flex flex-col items-center justify-center p-3 bg-gray-50"
+              >
+                <i class="ri-hotel-line text-xl mb-1 text-black"></i>
+                <span class="text-xs text-center text-black">Land</span>
+              </div>
+              <div
+                class="property-type flex flex-col items-center justify-center p-3 bg-gray-50"
+              >
+                <i class="ri-store-line text-xl mb-1 text-black"></i>
+                <span class="text-xs text-center text-black">Shop</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-black mb-2"
+              >Listing Type</label
+            >
+            <div class="flex space-x-3">
+              <button class="property-type selected flex-1 py-3 bg-gray-50">
+                For Sale
+              </button>
+              <button class="property-type flex-1 py-3 bg-gray-50 text-black">
+                For Rent
+              </button>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-black mb-2"
+              >Price (₺)</label
+            >
+            <input
+              type="text"
+              placeholder="e.g. 1,500,000"
+              class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black"
+            />
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="px-6 py-5 bg-white border-b border-gray-100">
+          <h2 class="text-lg font-bold text-black mb-4">Property Details</h2>
+
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-sm font-medium text-black mb-2"
+                >Bedrooms</label
+              >
+              <select
+                class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black appearance-none"
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5+</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-black mb-2"
+                >Bathrooms</label
+              >
+              <select
+                class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black appearance-none"
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4+</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-sm font-medium text-black mb-2"
+                >Area (m²)</label
+              >
+              <input
+                type="text"
+                placeholder="e.g. 120"
+                class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-black mb-2"
+                >Year Built</label
+              >
+              <input
+                type="text"
+                placeholder="e.g. 2020"
+                class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="px-6 py-5 bg-white border-b border-gray-100">
+          <h2 class="text-lg font-bold text-black mb-4">Location</h2>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-black mb-2"
+              >City</label
+            >
+            <select
+              class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black appearance-none"
+            >
+              <option>Istanbul</option>
+              <option>Ankara</option>
+              <option>Izmir</option>
+              <option>Antalya</option>
+              <option>Bursa</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-black mb-2"
+              >District</label
+            >
+            <select
+              class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black appearance-none"
+            >
+              <option>Beşiktaş</option>
+              <option>Kadıköy</option>
+              <option>Şişli</option>
+              <option>Beyoğlu</option>
+              <option>Üsküdar</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-black mb-2"
+              >Address</label
+            >
+            <input
+              type="text"
+              placeholder="Enter full address"
+              class="w-full py-3 px-4 bg-gray-100 rounded-xl text-black"
+            />
+          </div>
+
+          <div
+            class="bg-gray-100 rounded-xl h-32 flex items-center justify-center mb-3"
+          >
+            <i class="ri-map-2-line text-3xl text-gray-400"></i>
+          </div>
+          <p class="text-xs text-gray-500">
+            Drag the pin to mark the exact location
+          </p>
+        </div>
+
+        <!-- Amenities -->
+        <div class="px-6 py-5 bg-white">
+          <h2 class="text-lg font-bold text-black mb-4">Amenities</h2>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex items-center">
+              <input type="checkbox" id="wifi" class="w-5 h-5 mr-3" />
+              <label for="wifi" class="text-sm text-black">WiFi</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="parking" class="w-5 h-5 mr-3" />
+              <label for="parking" class="text-sm text-black">Parking</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="pool" class="w-5 h-5 mr-3" />
+              <label for="pool" class="text-sm text-black">Swimming Pool</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="security" class="w-5 h-5 mr-3" />
+              <label for="security" class="text-sm text-black">Security</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="smart" class="w-5 h-5 mr-3" />
+              <label for="smart" class="text-sm text-black">Smart Home</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="garden" class="w-5 h-5 mr-3" />
+              <label for="garden" class="text-sm text-black">Garden</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="balcony" class="w-5 h-5 mr-3" />
+              <label for="balcony" class="text-sm text-black">Balcony</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="elevator" class="w-5 h-5 mr-3" />
+              <label for="elevator" class="text-sm text-black">Elevator</label>
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="ac" class="w-5 h-5 mr-3" />
+              <label for="ac" class="text-sm text-black"
+                >Air Conditioning</label
+              >
+            </div>
+            <div class="flex items-center">
+              <input type="checkbox" id="heating" class="w-5 h-5 mr-3" />
+              <label for="heating" class="text-sm text-black">Heating</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Buttons -->
+      <div class="border-t border-gray-200 px-6 py-4 bg-white">
+        <div class="flex space-x-4">
+          <button
+            class="flex-1 py-3 border border-gray-300 rounded-xl font-medium text-black"
+          >
+            Save Draft
+          </button>
+          <button
+            class="flex-1 gradient-bg text-white py-3 rounded-xl font-medium"
+          >
+            Publish Listing
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 6: Register Welcome Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Welcome Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .welcome-bg {
+        background-image: url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1073&q=80");
+        background-size: cover;
+        background-position: center;
+        position: relative;
+      }
+      .welcome-bg::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.1) 0%,
+          rgba(0, 0, 0, 0.7) 100%
+        );
+      }
+      .content-container {
+        position: relative;
+        z-index: 10;
+      }
+      .social-btn {
+        transition: all 0.3s ease;
+      }
+      .social-btn:hover {
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Welcome Background -->
+      <div class="welcome-bg h-full flex flex-col">
+        <div class="content-container flex flex-col h-full px-6 py-12">
+          <!-- Logo and Skip -->
+          <div class="flex justify-between items-center">
+            <div class="text-white text-2xl font-bold">EmlakBul</div>
+            <button class="text-white text-sm">Skip</button>
+          </div>
+
+          <!-- Main Content -->
+          <div class="mt-auto mb-8">
+            <h1 class="text-3xl font-bold text-white mb-3">
+              Find Your Dream Property
+            </h1>
+            <p class="text-white text-sm opacity-90 mb-8">
+              Discover thousands of properties for sale and rent across Turkey.
+              Join our community to find your perfect home.
+            </p>
+
+            <!-- Registration Buttons -->
+            <button
+              class="w-full gradient-bg text-white py-4 rounded-xl font-medium mb-4"
+            >
+              Create an Account
+            </button>
+
+            <!-- Social Login -->
+            <div class="flex justify-between space-x-3 mb-6">
+              <button
+                class="flex-1 bg-white py-3 rounded-xl font-medium text-black flex items-center justify-center social-btn"
+              >
+                <i class="ri-google-fill mr-2 text-lg"></i>
+                Google
+              </button>
+              <button
+                class="flex-1 bg-white py-3 rounded-xl font-medium text-black flex items-center justify-center social-btn"
+              >
+                <i class="ri-facebook-fill mr-2 text-lg"></i>
+                Facebook
+              </button>
+            </div>
+
+            <!-- Login Link -->
+            <div class="text-center">
+              <span class="text-white text-sm">Already have an account? </span>
+              <a href="#" class="text-white text-sm font-bold">Log In</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 7: Register Form Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Form Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .input-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 16px;
+        color: #9ca3af;
+      }
+      .form-input {
+        transition: all 0.3s ease;
+      }
+      .form-input:focus {
+        border-color: #ff8e53;
+        box-shadow: 0 0 0 3px rgba(255, 142, 83, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Header -->
+      <div class="px-6 pt-12 pb-6">
+        <div class="flex items-center">
+          <button class="p-2 mr-4">
+            <i class="ri-arrow-left-s-line text-xl text-black"></i>
+          </button>
+          <h1 class="text-xl font-bold text-black">Create Account</h1>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="px-6 py-4 flex-1">
+        <p class="text-sm text-gray-500 mb-6">
+          Please fill in the information below to create your account.
+        </p>
+
+        <!-- Full Name -->
+        <div class="mb-5">
+          <label class="block text-sm font-medium text-black mb-2"
+            >Full Name</label
+          >
+          <div class="relative">
+            <i class="ri-user-line input-icon"></i>
+            <input
+              type="text"
+              placeholder="Enter your full name"
+              class="form-input w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-5">
+          <label class="block text-sm font-medium text-black mb-2"
+            >Email Address</label
+          >
+          <div class="relative">
+            <i class="ri-mail-line input-icon"></i>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              class="form-input w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="mb-5">
+          <label class="block text-sm font-medium text-black mb-2"
+            >Phone Number</label
+          >
+          <div class="relative">
+            <i class="ri-phone-line input-icon"></i>
+            <input
+              type="tel"
+              placeholder="Enter your phone number"
+              class="form-input w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-5">
+          <label class="block text-sm font-medium text-black mb-2"
+            >Password</label
+          >
+          <div class="relative">
+            <i class="ri-lock-line input-icon"></i>
+            <input
+              type="password"
+              placeholder="Create a password"
+              class="form-input w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none"
+            />
+            <button class="absolute right-4 top-1/2 transform -translate-y-1/2">
+              <i class="ri-eye-off-line text-gray-400"></i>
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 mt-2">
+            Password must be at least 8 characters long with 1 uppercase letter
+            and 1 number.
+          </p>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-black mb-2"
+            >Confirm Password</label
+          >
+          <div class="relative">
+            <i class="ri-lock-line input-icon"></i>
+            <input
+              type="password"
+              placeholder="Confirm your password"
+              class="form-input w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none"
+            />
+            <button class="absolute right-4 top-1/2 transform -translate-y-1/2">
+              <i class="ri-eye-off-line text-gray-400"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="flex items-start mb-8">
+          <input type="checkbox" id="terms" class="w-5 h-5 mt-0.5 mr-3" />
+          <label for="terms" class="text-sm text-black">
+            I agree to the
+            <a href="#" class="font-medium">Terms of Service</a> and
+            <a href="#" class="font-medium">Privacy Policy</a>
+          </label>
+        </div>
+      </div>
+
+      <!-- Continue Button -->
+      <div class="px-6 py-6 border-t border-gray-100">
+        <button
+          class="w-full gradient-bg text-white py-4 rounded-xl font-medium"
+        >
+          Create Account
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 8: Register Verification Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Verification Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .verification-input {
+        width: 50px;
+        height: 60px;
+        font-size: 24px;
+        border-radius: 12px;
+        border: 2px solid #e5e7eb;
+        text-align: center;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+      .verification-input:focus {
+        border-color: #ff8e53;
+        box-shadow: 0 0 0 3px rgba(255, 142, 83, 0.1);
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Header -->
+      <div class="px-6 pt-12 pb-6">
+        <div class="flex items-center">
+          <button class="p-2 mr-4">
+            <i class="ri-arrow-left-s-line text-xl text-black"></i>
+          </button>
+          <h1 class="text-xl font-bold text-black">Verification</h1>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="px-6 py-4 flex-1">
+        <div class="text-center mb-8">
+          <div
+            class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6"
+          >
+            <i class="ri-mail-send-line text-3xl text-white"></i>
+          </div>
+          <h2 class="text-xl font-bold text-black mb-2">Verify Your Email</h2>
+          <p class="text-sm text-gray-500">
+            We've sent a verification code to<br />
+            <span class="font-medium text-black">example@email.com</span>
+          </p>
+        </div>
+
+        <!-- Verification Code Input -->
+        <div class="mb-8">
+          <label class="block text-sm font-medium text-black mb-4 text-center">
+            Enter the 4-digit code
+          </label>
+          <div class="flex justify-between">
+            <input type="text" maxlength="1" class="verification-input" />
+            <input type="text" maxlength="1" class="verification-input" />
+            <input type="text" maxlength="1" class="verification-input" />
+            <input type="text" maxlength="1" class="verification-input" />
+          </div>
+        </div>
+
+        <!-- Resend Code -->
+        <div class="text-center mb-8">
+          <p class="text-sm text-gray-500 mb-2">Didn't receive the code?</p>
+          <button class="text-sm font-medium text-black">
+            Resend Code <span class="text-gray-400">(30s)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Verify Button -->
+      <div class="px-6 py-6 border-t border-gray-100">
+        <button
+          class="w-full gradient-bg text-white py-4 rounded-xl font-medium"
+        >
+          Verify and Continue
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 9: Register User Type Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register User Type Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .user-type-card {
+        border-radius: 16px;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+      }
+      .user-type-card.selected {
+        border-color: #ff8e53;
+        background-color: rgba(255, 142, 83, 0.05);
+      }
+      .user-type-card:hover {
+        transform: translateY(-2px);
+      }
+      .user-type-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Header -->
+      <div class="px-6 pt-12 pb-6">
+        <div class="flex items-center">
+          <button class="p-2 mr-4">
+            <i class="ri-arrow-left-s-line text-xl text-black"></i>
+          </button>
+          <h1 class="text-xl font-bold text-black">Select User Type</h1>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="px-6 py-4 flex-1">
+        <p class="text-sm text-gray-500 mb-8">
+          Please select your user type to personalize your experience.
+        </p>
+
+        <!-- User Type Selection -->
+        <div class="space-y-4 mb-8">
+          <!-- Individual User -->
+          <div
+            class="user-type-card selected p-4 bg-white shadow-sm flex items-center"
+          >
+            <div class="user-type-icon bg-red-100 mr-4">
+              <i class="ri-user-line text-2xl text-black"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium text-black mb-1">Individual User</h3>
+              <p class="text-xs text-gray-500">
+                Looking to buy, sell or rent properties for personal use
+              </p>
+            </div>
+            <div class="ml-4">
+              <div
+                class="w-6 h-6 rounded-full border-2 border-red-400 flex items-center justify-center"
+              >
+                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real Estate Agent -->
+          <div class="user-type-card p-4 bg-white shadow-sm flex items-center">
+            <div class="user-type-icon bg-blue-100 mr-4">
+              <i class="ri-briefcase-line text-2xl text-black"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium text-black mb-1">Real Estate Agent</h3>
+              <p class="text-xs text-gray-500">
+                Professional agent representing clients in property transactions
+              </p>
+            </div>
+            <div class="ml-4">
+              <div
+                class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Property Developer -->
+          <div class="user-type-card p-4 bg-white shadow-sm flex items-center">
+            <div class="user-type-icon bg-green-100 mr-4">
+              <i class="ri-building-line text-2xl text-black"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium text-black mb-1">Property Developer</h3>
+              <p class="text-xs text-gray-500">
+                Company or individual developing new properties for sale
+              </p>
+            </div>
+            <div class="ml-4">
+              <div
+                class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Property Manager -->
+          <div class="user-type-card p-4 bg-white shadow-sm flex items-center">
+            <div class="user-type-icon bg-purple-100 mr-4">
+              <i class="ri-home-gear-line text-2xl text-black"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium text-black mb-1">Property Manager</h3>
+              <p class="text-xs text-gray-500">
+                Managing rental properties on behalf of property owners
+              </p>
+            </div>
+            <div class="ml-4">
+              <div
+                class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-xs text-gray-500 text-center">
+          You can change your user type later in your profile settings.
+        </p>
+      </div>
+
+      <!-- Continue Button -->
+      <div class="px-6 py-6 border-t border-gray-100">
+        <button
+          class="w-full gradient-bg text-white py-4 rounded-xl font-medium"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 10: Register Success Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Success Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .success-animation {
+        animation: scale-up 0.5s ease-out;
+      }
+      @keyframes scale-up {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        70% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .feature-card {
+        border-radius: 16px;
+        transition: all 0.3s ease;
+      }
+      .feature-card:hover {
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Content -->
+      <div class="px-6 py-12 flex-1 flex flex-col items-center justify-center">
+        <div class="text-center mb-10">
+          <div
+            class="w-24 h-24 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6 success-animation"
+          >
+            <i class="ri-check-line text-5xl text-white"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-black mb-2">
+            Registration Successful!
+          </h2>
+          <p class="text-sm text-gray-500 max-w-xs mx-auto">
+            Your account has been created successfully. You can now start
+            exploring properties.
+          </p>
+        </div>
+
+        <!-- Features -->
+        <div class="w-full space-y-4 mb-10">
+          <h3 class="text-lg font-bold text-black mb-3">
+            What you can do now:
+          </h3>
+
+          <div class="feature-card p-4 bg-white shadow-sm flex items-center">
+            <div
+              class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4"
+            >
+              <i class="ri-search-line text-xl text-black"></i>
+            </div>
+            <div>
+              <h4 class="font-medium text-black">Browse Properties</h4>
+              <p class="text-xs text-gray-500">
+                Search and filter properties based on your preferences
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-card p-4 bg-white shadow-sm flex items-center">
+            <div
+              class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4"
+            >
+              <i class="ri-heart-line text-xl text-black"></i>
+            </div>
+            <div>
+              <h4 class="font-medium text-black">Save Favorites</h4>
+              <p class="text-xs text-gray-500">
+                Save properties you like to view them later
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-card p-4 bg-white shadow-sm flex items-center">
+            <div
+              class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4"
+            >
+              <i class="ri-add-line text-xl text-black"></i>
+            </div>
+            <div>
+              <h4 class="font-medium text-black">List Properties</h4>
+              <p class="text-xs text-gray-500">
+                Add your own properties for sale or rent
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Get Started Button -->
+      <div class="px-6 py-6 border-t border-gray-100">
+        <button
+          class="w-full gradient-bg text-white py-4 rounded-xl font-medium"
+        >
+          Get Started
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
+
+--- Screen 11: Login Screen ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f5f7fa;
+        font-family: "Inter", sans-serif;
+      }
+      .phone-frame {
+        width: 375px;
+        height: 812px;
+        background: white;
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        margin: 2rem;
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      }
+      .input-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 16px;
+        color: #9ca3af;
+      }
+      .form-input {
+        transition: all 0.3s ease;
+      }
+      .form-input:focus {
+        border-color: #ff8e53;
+        box-shadow: 0 0 0 3px rgba(255, 142, 83, 0.1);
+      }
+      .social-btn {
+        transition: all 0.3s ease;
+      }
+      .social-btn:hover {
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone-frame">
+      <!-- Header -->
+      <div class="px-6 pt-12 pb-6">
+        <div class="flex items-center">
+          <button class="p-2 mr-4">
+            <i class="ri-arrow-left-s-line text-xl text-black"></i>
+          </button>
+          <h1 class="text-xl font-bold text-black">Log In</h1>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="px-6 py-4 flex-1">
+        <p class="text-sm text-gray-500 mb-8">
+          Welcome back! Please log in to your account.
+        </p>
+
+        <!-- Email -->
+        <div class="mb-5">
+          <label class="block text-sm font-medium text-black mb-2"
+            >Email Address</label
+          >
+          <div class="relative">
+            <i class="ri-mail-line input-icon"></i>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              class="form-input w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-5">
+          <label class="block text-sm font-medium text-black mb-2"
+            >Password</label
+          >
+          <div class="relative">
+            <i class="ri-lock-line input-icon"></i>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              class="form-input w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none"
+            />
+            <button class="absolute right-4 top-1/2 transform -translate-y-1/2">
+              <i class="ri-eye-off-line text-gray-400"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="flex justify-between items-center mb-8">
+          <div class="flex items-center">
+            <input type="checkbox" id="remember" class="w-4 h-4 mr-2" />
+            <label for="remember" class="text-sm text-black">Remember me</label>
+          </div>
+          <a href="#" class="text-sm font-medium text-black"
+            >Forgot Password?</a
+          >
+        </div>
+
+        <!-- Login Button -->
+        <button
+          class="w-full gradient-bg text-white py-4 rounded-xl font-medium mb-6"
+        >
+          Log In
+        </button>
+
+        <!-- Divider -->
+        <div class="flex items-center mb-6">
+          <div class="flex-1 border-t border-gray-200"></div>
+          <span class="px-4 text-sm text-gray-500">or continue with</span>
+          <div class="flex-1 border-t border-gray-200"></div>
+        </div>
+
+        <!-- Social Login -->
+        <div class="flex justify-between space-x-3 mb-8">
+          <button
+            class="flex-1 bg-white border border-gray-200 py-3 rounded-xl font-medium text-black flex items-center justify-center social-btn"
+          >
+            <i class="ri-google-fill mr-2 text-lg"></i>
+            Google
+          </button>
+          <button
+            class="flex-1 bg-white border border-gray-200 py-3 rounded-xl font-medium text-black flex items-center justify-center social-btn"
+          >
+            <i class="ri-facebook-fill mr-2 text-lg"></i>
+            Facebook
+          </button>
+        </div>
+
+        <!-- Sign Up Link -->
+        <div class="text-center">
+          <span class="text-sm text-gray-500">Don't have an account? </span>
+          <a href="#" class="text-sm font-bold text-black">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
