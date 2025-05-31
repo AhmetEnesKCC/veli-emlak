@@ -16,18 +16,18 @@ export default function RegisterWelcomePage() {
         <div className="flex justify-between items-center">
           <div className="text-white text-2xl font-bold">EmlakBul</div>
           <Link href="/home" className="text-white text-sm">
-            Skip
+            Geç
           </Link>
         </div>
 
         {/* Main Content */}
         <div className="mt-auto mb-8">
           <h1 className="text-3xl font-bold text-white mb-3">
-            Find Your Dream Property
+            Hayalinizdeki Evi Bulun
           </h1>
           <p className="text-white text-sm opacity-90 mb-8">
-            Discover thousands of properties for sale and rent across Turkey.
-            Join our community to find your perfect home.
+            Türkiye genelinde binlerce satılık ve kiralık ev keşfedin.
+            Mükemmel evinizi bulmak için topluluğumuza katılın.
           </p>
 
           {/* Registration Buttons */}
@@ -35,7 +35,7 @@ export default function RegisterWelcomePage() {
             href="/auth/verification"
             className="block w-full bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white py-4 rounded-xl font-medium mb-4 text-center"
           >
-            Create an Account
+            Hesap Oluştur
           </Link>
 
           {/* Social Login */}
@@ -53,10 +53,10 @@ export default function RegisterWelcomePage() {
           {/* Login Link */}
           <div className="text-center">
             <span className="text-white text-sm">
-              Already have an account?{" "}
+              Zaten hesabınız var mı?{" "}
             </span>
             <Link href="/auth/login" className="text-white text-sm font-bold">
-              Log In
+              Giriş Yap
             </Link>
           </div>
         </div>

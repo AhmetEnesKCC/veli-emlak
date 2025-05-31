@@ -2,20 +2,60 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { chatbotAPI, Property } from "@/lib/api";
 
 interface Message {
   text: string;
   sender: "bot" | "user";
   isLoading?: boolean;
   options?: string[];
+  properties?: Property[];
   timestamp?: string;
+}
+
+// Property Card Component
+function PropertyCard({ property }: { property: Property }) {
+  const formatPrice = (price: number) => {
+    if (price >= 1000000) {
+      return `${(price / 1000000).toFixed(1)}M`;
+    }
+    return price.toLocaleString();
+  };
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+      <Link href={`/property-detail/${property.id}`}>
+        <div className="space-y-2">
+          <h3 className="font-semibold text-black text-sm line-clamp-1">
+            {property.property_name}
+          </h3>
+          <p className="text-xs text-gray-600">
+            {property.street}, {property.city}
+          </p>
+          <div className="flex justify-between items-center">
+            <span className="text-green-600 font-bold text-sm">
+              {formatPrice(property.room_rates?.[0]?.weekday_rate || 0)} TL
+            </span>
+            <span className="text-xs text-gray-500">
+              {property.amenities?.square_footage} m²
+            </span>
+          </div>
+          <div className="flex items-center text-xs text-gray-500">
+            <span>{property.amenities?.number_bedrooms} oda</span>
+            <span className="mx-2">•</span>
+            <span>{property.amenities?.number_bathrooms} banyo</span>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
 }
 
 export default function ChatbotPage() {
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {
-      text: "👋 Hello! I'm EmlakBot, your AI real estate assistant. How can I help you today with finding, buying, selling, or renting properties?",
+      text: "👋 Merhaba! Ben EmlakBot, AI emlak asistanınızım. Emlak alım, satım veya kiralama konularında size nasıl yardımcı olabilirim?",
       sender: "bot",
       timestamp: new Date().toLocaleTimeString([], {
         hour: "2-digit",
@@ -34,7 +74,7 @@ export default function ChatbotPage() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputValue.trim() === "") return;
 
     const currentTime = new Date().toLocaleTimeString([], {
@@ -50,53 +90,49 @@ export default function ChatbotPage() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const messageToSend = inputValue;
     setInputValue("");
 
     // Add loading message
     setMessages((prev) => [
       ...prev,
-      { text: "...", sender: "bot", isLoading: true },
+      { text: "Düşünüyorum...", sender: "bot", isLoading: true },
     ]);
 
-    // Simulate bot response after a short delay
-    setTimeout(() => {
+    try {
+      // Call real API
+      const response = await chatbotAPI.query({ message: messageToSend });
+      
       // Remove loading message
       setMessages((prev) => prev.filter((msg) => !msg.isLoading));
 
-      // For demo purposes, we'll simulate a response based on content
-      let botResponse = {
-        text: "",
-        sender: "bot" as const,
-        options: [] as string[],
+      // Add bot response
+      const botResponse: Message = {
+        text: response.response,
+        sender: "bot",
+        options: response.options,
+        properties: response.properties,
         timestamp: currentTime,
       };
 
-      // Example response for a property search in Kadıköy
-      if (
-        inputValue.toLowerCase().includes("kadıköy") ||
-        inputValue.toLowerCase().includes("kadikoy")
-      ) {
-        botResponse = {
-          text: "Great choice! Kadıköy is a vibrant district with excellent amenities. I found 14 properties matching your criteria:\n\n• 8 apartments between 1.8M-2.2M TL\n• Average size: 95m²\n• Most have balconies and are close to public transport\n\nWould you like me to show you the details?",
-          sender: "bot",
-          options: ["Show more properties", "Filter by price", "Show map view"],
-          timestamp: currentTime,
-        };
-      } else {
-        botResponse = {
-          text: "I'd be happy to help you with that! Could you provide me with more details about the location, budget, and property type you're looking for?",
-          sender: "bot",
-          options: ["Search by location", "Set budget", "View popular areas"],
-          timestamp: currentTime,
-        };
-      }
-
       setMessages((prev) => [...prev, botResponse]);
-    }, 1000);
+    } catch (error) {
+      // Remove loading message and show error
+      setMessages((prev) => prev.filter((msg) => !msg.isLoading));
+      
+      const errorResponse: Message = {
+        text: "Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.",
+        sender: "bot",
+        timestamp: currentTime,
+      };
+
+      setMessages((prev) => [...prev, errorResponse]);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
       handleSendMessage();
     }
   };
@@ -109,9 +145,9 @@ export default function ChatbotPage() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 min-h-screen bg-white">
-      {/* Sidebar - only visible on large screens */}
-      <div className="hidden lg:block lg:col-span-1 bg-[#F7F9FC] border-r border-gray-200">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-white">
+      {/* Sidebar - responsive */}
+      <div className="lg:w-80 bg-[#F7F9FC] border-r border-gray-200 hidden lg:block">
         <div className="p-6">
           <h2 className="text-2xl font-bold text-black mb-6">
             <span className="bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] bg-clip-text text-transparent">
@@ -121,42 +157,54 @@ export default function ChatbotPage() {
 
           <div className="mb-8">
             <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wider">
-              Recent Conversations
+              Son Konuşmalar
             </h3>
             <div className="space-y-3">
               <div className="p-3 bg-[#ECF0F6] rounded-lg cursor-pointer">
-                <p className="font-medium text-black">
-                  Property Search in Kadıköy
+                <p className="font-medium text-black text-sm">
+                  Kadıköy'de Emlak Arama
                 </p>
-                <p className="text-xs text-gray-500 mt-1">Today, 11:30 AM</p>
+                <p className="text-xs text-gray-500 mt-1">Bugün, 11:30</p>
               </div>
               <div className="p-3 hover:bg-gray-100 rounded-lg cursor-pointer transition">
-                <p className="font-medium text-black">Investment Properties</p>
-                <p className="text-xs text-gray-500 mt-1">Yesterday, 3:15 PM</p>
+                <p className="font-medium text-black text-sm">Yatırım Amaçlı</p>
+                <p className="text-xs text-gray-500 mt-1">Dün, 15:15</p>
               </div>
               <div className="p-3 hover:bg-gray-100 rounded-lg cursor-pointer transition">
-                <p className="font-medium text-black">Rental Inquiry</p>
-                <p className="text-xs text-gray-500 mt-1">Apr 15, 10:22 AM</p>
+                <p className="font-medium text-black text-sm">Kiralık Sorgusu</p>
+                <p className="text-xs text-gray-500 mt-1">15 Nis, 10:22</p>
               </div>
             </div>
           </div>
 
           <div>
             <h3 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wider">
-              Suggested Topics
+              Önerilen Konular
             </h3>
             <div className="space-y-2">
-              <button className="w-full text-left p-2 text-sm text-black hover:bg-gray-100 rounded">
-                💰 Property investment advice
+              <button 
+                className="w-full text-left p-2 text-sm text-black hover:bg-gray-100 rounded transition"
+                onClick={() => setInputValue("İstanbul'da ucuz daire var mı?")}
+              >
+                💰 İstanbul'da uygun fiyatlı daireler
               </button>
-              <button className="w-full text-left p-2 text-sm text-black hover:bg-gray-100 rounded">
-                🏙️ Best neighborhoods in Istanbul
+              <button 
+                className="w-full text-left p-2 text-sm text-black hover:bg-gray-100 rounded transition"
+                onClick={() => setInputValue("Ankara'da villa arıyorum")}
+              >
+                🏙️ Ankara'da lüks villalar
               </button>
-              <button className="w-full text-left p-2 text-sm text-black hover:bg-gray-100 rounded">
-                📊 Current market trends
+              <button 
+                className="w-full text-left p-2 text-sm text-black hover:bg-gray-100 rounded transition"
+                onClick={() => setInputValue("Kadıköy'de kiralık daire")}
+              >
+                📊 Kadıköy kiralık daireler
               </button>
-              <button className="w-full text-left p-2 text-sm text-black hover:bg-gray-100 rounded">
-                📑 Legal requirements for buyers
+              <button 
+                className="w-full text-left p-2 text-sm text-black hover:bg-gray-100 rounded transition"
+                onClick={() => setInputValue("2 milyon TL'ye ne alabilirim?")}
+              >
+                📑 Bütçeme uygun seçenekler
               </button>
             </div>
           </div>
@@ -168,146 +216,156 @@ export default function ChatbotPage() {
             className="flex items-center text-gray-600 hover:text-black transition-colors"
           >
             <i className="ri-arrow-left-line mr-2"></i>
-            Back to Home
+            Ana Sayfaya Dön
           </Link>
         </div>
       </div>
 
       {/* Main chat area */}
-      <div className="lg:col-span-3 flex flex-col h-screen">
-        {/* Header */}
-        <div className="bg-white border-b border-gray-200 pt-12 lg:pt-6 pb-4 px-6 flex items-center justify-between sticky top-0 z-10">
+      <div className="flex-1 flex flex-col h-screen">
+        {/* Header - responsive */}
+        <div className="bg-white border-b border-gray-200 p-4 lg:p-6 flex items-center justify-between sticky top-0 z-10">
           <div className="flex items-center">
-            <Link href="/home" className="mr-5 lg:hidden">
+            <Link href="/home" className="mr-4 lg:hidden">
               <i className="ri-arrow-left-line text-black text-xl"></i>
             </Link>
             <div className="flex items-center">
               <div className="bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] w-10 h-10 rounded-full flex items-center justify-center mr-3">
-                <i className="ri-home-smile-fill text-white text-xl"></i>
+                <i className="ri-robot-fill text-white text-xl"></i>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-black">EmlakBot</h1>
-                <p className="text-gray-500 text-sm">AI Property Assistant</p>
+                <h1 className="text-lg lg:text-xl font-bold text-black">EmlakBot</h1>
+                <p className="text-gray-500 text-xs lg:text-sm">AI Emlak Asistanı</p>
               </div>
             </div>
           </div>
 
           <div className="hidden lg:flex items-center space-x-3">
-            <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full">
+            <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition">
               <i className="ri-search-line text-xl"></i>
             </button>
-            <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full">
+            <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition">
               <i className="ri-delete-bin-line text-xl"></i>
             </button>
-            <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full">
+            <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition">
               <i className="ri-more-2-fill text-xl"></i>
             </button>
           </div>
         </div>
 
-        {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#F7F9FC] lg:border-l lg:border-gray-200">
+        {/* Chat Messages - responsive */}
+        <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4 lg:space-y-6 bg-[#F7F9FC]">
           {messages.map((message, index) => (
-            <div
-              key={index}
-              className={
-                message.sender === "user"
-                  ? "flex justify-end"
-                  : "flex justify-start"
-              }
-            >
+            <div key={index}>
               <div
-                className={`max-w-[85%] lg:max-w-[70%] rounded-2xl p-4 ${
-                  message.sender === "bot"
-                    ? "bg-white text-black border border-gray-200 shadow-sm"
-                    : "bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white"
-                }`}
+                className={
+                  message.sender === "user"
+                    ? "flex justify-end"
+                    : "flex justify-start"
+                }
               >
-                {message.isLoading ? (
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-                    <div
-                      className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
-                      style={{ animationDelay: "0.2s" }}
-                    ></div>
-                    <div
-                      className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
-                      style={{ animationDelay: "0.4s" }}
-                    ></div>
-                  </div>
-                ) : (
-                  <>
-                    <p className="whitespace-pre-wrap">{message.text}</p>
-                    {message.timestamp && (
+                <div
+                  className={`max-w-[90%] lg:max-w-[70%] rounded-2xl p-3 lg:p-4 ${
+                    message.sender === "bot"
+                      ? "bg-white text-black border border-gray-200 shadow-sm"
+                      : "bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white"
+                  }`}
+                >
+                  {message.isLoading ? (
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
                       <div
-                        className={`text-xs mt-2 ${
-                          message.sender === "bot"
-                            ? "text-gray-500"
-                            : "text-white/80"
-                        }`}
-                      >
-                        {message.timestamp}
-                      </div>
-                    )}
-                  </>
-                )}
+                        className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.2s" }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
+                        style={{ animationDelay: "0.4s" }}
+                      ></div>
+                    </div>
+                  ) : (
+                    <>
+                      <p className="whitespace-pre-wrap text-sm lg:text-base">{message.text}</p>
+                      {message.timestamp && (
+                        <div
+                          className={`text-xs mt-2 ${
+                            message.sender === "bot"
+                              ? "text-gray-500"
+                              : "text-white/80"
+                          }`}
+                        >
+                          {message.timestamp}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
+
+              {/* Properties Grid */}
+              {message.properties && message.properties.length > 0 && (
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {message.properties.slice(0, 5).map((property) => (
+                    <PropertyCard key={property.id} property={property} />
+                  ))}
+                </div>
+              )}
+
+              {/* Option buttons */}
+              {message.options && message.options.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {message.options.map((option, optionIndex) => (
+                    <button
+                      key={optionIndex}
+                      className="bg-white text-black border border-gray-200 hover:bg-gray-50 rounded-full px-3 lg:px-4 py-2 text-xs lg:text-sm transition-colors shadow-sm"
+                      onClick={() => handleOptionClick(option)}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
-
-          {/* Option buttons */}
-          {messages.length > 0 && messages[messages.length - 1].options && (
-            <div className="flex flex-wrap gap-2 mt-2">
-              {messages[messages.length - 1].options?.map((option, index) => (
-                <button
-                  key={index}
-                  className="bg-white text-black border border-gray-200 hover:bg-gray-50 rounded-full px-4 py-2 text-sm transition-colors shadow-sm"
-                  onClick={() => handleOptionClick(option)}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          )}
 
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Area */}
-        <div className="bg-white px-6 py-4 border-t border-gray-200">
-          <div className="flex items-center bg-[#F7F9FC] border border-gray-200 rounded-full pr-3">
-            <button className="p-3 text-gray-500 hover:text-gray-700">
-              <i className="ri-image-line text-xl"></i>
+        {/* Input Area - responsive */}
+        <div className="bg-white p-4 lg:p-6 border-t border-gray-200">
+          <div className="flex items-center bg-[#F7F9FC] border border-gray-200 rounded-full">
+            <button className="p-3 text-gray-500 hover:text-gray-700 transition">
+              <i className="ri-image-line text-lg lg:text-xl"></i>
             </button>
-            <input
-              type="text"
-              placeholder="Type a message..."
+            <textarea
+              placeholder="Mesajınızı yazın... (Örn: Kadıköy'de 2M TL'ye daire arıyorum)"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className="bg-transparent flex-1 text-black border-none focus:outline-none px-2"
+              onKeyDown={handleKeyPress}
+              className="bg-transparent flex-1 text-black border-none focus:outline-none px-2 py-3 resize-none text-sm lg:text-base"
+              rows={1}
+              style={{ minHeight: '20px', maxHeight: '100px' }}
             />
             <button
               onClick={handleSendMessage}
-              className={`p-3 rounded-full ${
+              className={`p-3 rounded-full transition-colors ${
                 inputValue.trim()
-                  ? "bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53]"
+                  ? "bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] hover:shadow-md"
                   : "bg-gray-300"
-              } transition-colors`}
+              }`}
               disabled={!inputValue.trim()}
             >
               <i className="ri-send-plane-fill text-white"></i>
             </button>
-            <button className="p-3 text-gray-500 hover:text-gray-700 ml-1">
-              <i className="ri-mic-line text-xl"></i>
+            <button className="p-3 text-gray-500 hover:text-gray-700 ml-1 transition">
+              <i className="ri-mic-line text-lg lg:text-xl"></i>
             </button>
           </div>
 
-          <div className="text-xs text-center text-gray-500 mt-3 hidden lg:block">
-            EmlakBot can help with property searching, recommendations, and real
-            estate inquiries. <br />
-            Responses may not always be accurate. Please verify important
-            information.
+          <div className="text-xs text-center text-gray-500 mt-3">
+            EmlakBot emlak arama, öneriler ve emlak sorularında yardımcı olabilir.
+            <br className="hidden lg:block" />
+            Yanıtlar her zaman doğru olmayabilir. Önemli bilgileri doğrulayın.
           </div>
         </div>
       </div>

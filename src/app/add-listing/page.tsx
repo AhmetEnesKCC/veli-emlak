@@ -2,453 +2,521 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { propertyAPI, CreatePropertyRequest } from "@/lib/api";
+import { useRouter } from "next/navigation";
+
+interface FormData {
+  property_name: string;
+  street_number: string;
+  street: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  country: string;
+  property_type: string;
+  urban_rural_suburban: string;
+  square_footage: string;
+  number_beds: string;
+  number_bedrooms: string;
+  number_bathrooms: number;
+  air_conditioning: string;
+  wifi: string;
+  pets: string;
+  smoke_free: string;
+  parking: string;
+  laundry_facilities: string;
+  swimming_pool: string;
+  accessibility: string;
+  room_rates?: {
+    weekday_rate: number;
+    weekend_rate: number;
+    person_add_on_price: number;
+    tax_rate: number;
+  };
+}
 
 export default function AddListingPage() {
-  const [selectedPropertyType, setSelectedPropertyType] = useState("Apartment");
-  const [listingType, setListingType] = useState("sale");
+  const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const [formData, setFormData] = useState<FormData>({
+    property_name: "",
+    street_number: "",
+    street: "",
+    city: "",
+    state: "",
+    zip_code: "",
+    country: "Turkey",
+    property_type: "Apartment",
+    urban_rural_suburban: "Urban",
+    square_footage: "",
+    number_beds: "",
+    number_bedrooms: "",
+    number_bathrooms: 1,
+    air_conditioning: "No",
+    wifi: "Yes",
+    pets: "No",
+    smoke_free: "Yes",
+    parking: "No",
+    laundry_facilities: "No",
+    swimming_pool: "No",
+    accessibility: "No",
+    room_rates: {
+      weekday_rate: 0,
+      weekend_rate: 0,
+      person_add_on_price: 0,
+      tax_rate: 18,
+    },
+  });
 
   const propertyTypes = [
-    { id: 1, name: "Apartment", icon: "ri-building-line" },
-    { id: 2, name: "House", icon: "ri-home-5-line" },
-    { id: 3, name: "Villa", icon: "ri-building-4-line" },
-    { id: 4, name: "Office", icon: "ri-store-2-line" },
-    { id: 5, name: "Land", icon: "ri-hotel-line" },
-    { id: 6, name: "Shop", icon: "ri-store-line" },
+    { value: "Apartment", label: "Daire", icon: "ri-building-line" },
+    { value: "Villa", label: "Villa", icon: "ri-home-5-line" },
+    { value: "Studio", label: "Stüdyo", icon: "ri-building-4-line" },
+    { value: "Penthouse", label: "Çatı Katı", icon: "ri-store-2-line" },
+    { value: "Office", label: "Ofis", icon: "ri-store-line" },
   ];
 
-  const amenities = [
-    { id: "wifi", label: "WiFi" },
-    { id: "parking", label: "Parking" },
-    { id: "pool", label: "Swimming Pool" },
-    { id: "security", label: "Security" },
-    { id: "smart", label: "Smart Home" },
-    { id: "garden", label: "Garden" },
-    { id: "balcony", label: "Balcony" },
-    { id: "elevator", label: "Elevator" },
-    { id: "ac", label: "Air Conditioning" },
-    { id: "heating", label: "Heating" },
+  const cities = [
+    "Istanbul", "Ankara", "Izmir", "Bursa", "Antalya", 
+    "Gaziantep", "Konya", "Adana", "Kayseri", "Mersin"
   ];
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Web Header - Only visible on medium screens and larger */}
-      <header className="hidden md:block bg-white shadow-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="text-2xl font-bold">
-              <span className="bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] bg-clip-text text-transparent">
-                EmlakBul
-              </span>
-            </Link>
+  const handleInputChange = (field: string, value: any) => {
+    if (field.startsWith("room_rates.")) {
+      const rateField = field.split(".")[1];
+      setFormData(prev => ({
+        ...prev,
+        room_rates: {
+          ...prev.room_rates!,
+          [rateField]: value
+        }
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [field]: value }));
+    }
+  };
 
-            {/* Navigation */}
-            <nav className="hidden lg:flex space-x-8">
-              <Link
-                href="/home"
-                className="text-gray-600 font-medium hover:text-[#ff8e53] transition-colors"
-              >
-                Home
-              </Link>
-              <Link
-                href="/search"
-                className="text-gray-600 font-medium hover:text-[#ff8e53] transition-colors"
-              >
-                Properties
-              </Link>
-              <Link
-                href="/add-listing"
-                className="text-black font-medium hover:text-[#ff8e53] transition-colors"
-              >
-                Add Listing
-              </Link>
-              <Link
-                href="/chatbot"
-                className="text-gray-600 font-medium hover:text-[#ff8e53] transition-colors"
-              >
-                Chat with AI
-              </Link>
-              <Link
-                href="/profile"
-                className="text-gray-600 font-medium hover:text-[#ff8e53] transition-colors"
-              >
-                Profile
-              </Link>
-            </nav>
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      await propertyAPI.create(formData as CreatePropertyRequest);
+      router.push("/profile?success=İlan başarıyla oluşturuldu!");
+    } catch (error) {
+      console.error("Ilan oluşturma hatası:", error);
+      alert("İlan oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            {/* User Menu */}
-            <div className="hidden md:flex items-center">
-              <div className="flex items-center cursor-pointer">
-                <img
-                  src="https://randomuser.me/api/portraits/women/44.jpg"
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full object-cover"
+  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, 4));
+  const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
+
+  const isStepValid = () => {
+    switch (currentStep) {
+      case 1:
+        return formData.property_name && formData.city && formData.street;
+      case 2:
+        return formData.property_type && formData.square_footage && formData.number_bedrooms;
+      case 3:
+        return formData.street_number && formData.state && formData.zip_code;
+      case 4:
+        return formData.room_rates && formData.room_rates.weekday_rate > 0;
+      default:
+        return false;
+    }
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-black mb-6">Temel Bilgiler</h2>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                İlan Başlığı *
+              </label>
+              <input
+                type="text"
+                value={formData.property_name}
+                onChange={(e) => handleInputChange("property_name", e.target.value)}
+                placeholder="Örn: Modern 3+1 Daire, Deniz Manzaralı"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Şehir *
+                </label>
+                <select
+                  value={formData.city}
+                  onChange={(e) => handleInputChange("city", e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+                >
+                  <option value="">Şehir seçin</option>
+                  {cities.map(city => (
+                    <option key={city} value={city}>{city}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  İlçe *
+                </label>
+                <input
+                  type="text"
+                  value={formData.state}
+                  onChange={(e) => handleInputChange("state", e.target.value)}
+                  placeholder="İlçe adını girin"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
                 />
-                <span className="ml-2 font-medium">Ayşe Demir</span>
-                <i className="ri-arrow-down-s-line ml-1 text-gray-500"></i>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Sokak/Cadde *
+              </label>
+              <input
+                type="text"
+                value={formData.street}
+                onChange={(e) => handleInputChange("street", e.target.value)}
+                placeholder="Sokak veya cadde adını girin"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+              />
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-black mb-6">Emlak Detayları</h2>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Emlak Tipi *
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {propertyTypes.map((type) => (
+                  <button
+                    key={type.value}
+                    type="button"
+                    onClick={() => handleInputChange("property_type", type.value)}
+                    className={`p-4 border-2 rounded-lg flex flex-col items-center space-y-2 transition-all ${
+                      formData.property_type === type.value
+                        ? "border-[#ff6b6b] bg-[#ff6b6b]/5"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <i className={`${type.icon} text-2xl ${
+                      formData.property_type === type.value ? "text-[#ff6b6b]" : "text-gray-400"
+                    }`}></i>
+                    <span className={`text-sm font-medium ${
+                      formData.property_type === type.value ? "text-[#ff6b6b]" : "text-gray-700"
+                    }`}>
+                      {type.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Metrekare *
+                </label>
+                <input
+                  type="number"
+                  value={formData.square_footage}
+                  onChange={(e) => handleInputChange("square_footage", e.target.value)}
+                  placeholder="120"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Oda Sayısı *
+                </label>
+                <input
+                  type="text"
+                  value={formData.number_bedrooms}
+                  onChange={(e) => handleInputChange("number_bedrooms", e.target.value)}
+                  placeholder="3+1"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Banyo Sayısı *
+                </label>
+                <select
+                  value={formData.number_bathrooms}
+                  onChange={(e) => handleInputChange("number_bathrooms", parseInt(e.target.value))}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+                >
+                  {[1, 2, 3, 4, 5].map(num => (
+                    <option key={num} value={num}>{num}</option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-black mb-6">Adres Bilgileri</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Kapı/Bina No *
+                </label>
+                <input
+                  type="text"
+                  value={formData.street_number}
+                  onChange={(e) => handleInputChange("street_number", e.target.value)}
+                  placeholder="12A"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Posta Kodu *
+                </label>
+                <input
+                  type="text"
+                  value={formData.zip_code}
+                  onChange={(e) => handleInputChange("zip_code", e.target.value)}
+                  placeholder="34000"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Konum Tipi
+              </label>
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { value: "Urban", label: "Şehir Merkezi" },
+                  { value: "Suburban", label: "Banliyö" },
+                  { value: "Rural", label: "Kırsal" }
+                ].map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => handleInputChange("urban_rural_suburban", option.value)}
+                    className={`p-3 border-2 rounded-lg text-center transition-all ${
+                      formData.urban_rural_suburban === option.value
+                        ? "border-[#ff6b6b] bg-[#ff6b6b]/5 text-[#ff6b6b]"
+                        : "border-gray-200 hover:border-gray-300 text-gray-700"
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-black mb-6">Fiyat ve Özellikler</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Hafta İçi Fiyatı (TL/Gece) *
+                </label>
+                <input
+                  type="number"
+                  value={formData.room_rates?.weekday_rate || 0}
+                  onChange={(e) => handleInputChange("room_rates.weekday_rate", parseInt(e.target.value))}
+                  placeholder="500"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Hafta Sonu Fiyatı (TL/Gece)
+                </label>
+                <input
+                  type="number"
+                  value={formData.room_rates?.weekend_rate || 0}
+                  onChange={(e) => handleInputChange("room_rates.weekend_rate", parseInt(e.target.value))}
+                  placeholder="650"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6b6b] focus:border-[#ff6b6b]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Özellikler
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {[
+                  { field: "wifi", label: "WiFi", icon: "ri-wifi-line" },
+                  { field: "parking", label: "Otopark", icon: "ri-car-line" },
+                  { field: "air_conditioning", label: "Klima", icon: "ri-temp-cold-line" },
+                  { field: "swimming_pool", label: "Havuz", icon: "ri-water-flash-line" },
+                  { field: "laundry_facilities", label: "Çamaşırhane", icon: "ri-shirt-line" },
+                  { field: "accessibility", label: "Engelli Erişimi", icon: "ri-wheelchair-line" },
+                ].map((feature) => (
+                  <button
+                    key={feature.field}
+                    type="button"
+                    onClick={() => handleInputChange(feature.field, 
+                      (formData as any)[feature.field] === "Yes" ? "No" : "Yes"
+                    )}
+                    className={`p-3 border-2 rounded-lg flex items-center space-x-2 transition-all ${
+                      (formData as any)[feature.field] === "Yes"
+                        ? "border-[#ff6b6b] bg-[#ff6b6b]/5"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <i className={`${feature.icon} ${
+                      (formData as any)[feature.field] === "Yes" ? "text-[#ff6b6b]" : "text-gray-400"
+                    }`}></i>
+                    <span className={`text-sm font-medium ${
+                      (formData as any)[feature.field] === "Yes" ? "text-[#ff6b6b]" : "text-gray-700"
+                    }`}>
+                      {feature.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Mobile Header */}
+        <div className="flex items-center mb-6 lg:hidden">
+          <Link href="/profile" className="p-2 mr-4">
+            <i className="ri-arrow-left-s-line text-xl text-black"></i>
+          </Link>
+          <h1 className="text-xl font-bold text-black">Yeni İlan</h1>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-6 md:py-12">
-        <div className="md:max-w-4xl lg:max-w-5xl mx-auto">
-          {/* Mobile Header - Only visible on small screens */}
-          <div className="md:hidden px-2 pt-12 pb-4 flex items-center">
-            <Link href="/home" className="p-2 mr-4">
-              <i className="ri-arrow-left-s-line text-xl text-black"></i>
-            </Link>
-            <h1 className="text-xl font-bold text-black">Add New Listing</h1>
+        {/* Desktop Header */}
+        <div className="hidden lg:block mb-8">
+          <h1 className="text-3xl font-bold text-black mb-2">Yeni İlan Oluştur</h1>
+          <p className="text-gray-600">Emlak ilanınızı oluşturmak için formu doldurun</p>
+        </div>
+
+        <div className="lg:grid lg:grid-cols-4 lg:gap-8">
+          {/* Progress Sidebar - Desktop Only */}
+          <div className="hidden lg:block lg:col-span-1">
+            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-8">
+              <h3 className="font-bold text-black mb-4">İlerleme</h3>
+              <div className="space-y-4">
+                {[
+                  { step: 1, title: "Temel Bilgiler" },
+                  { step: 2, title: "Emlak Detayları" },
+                  { step: 3, title: "Adres Bilgileri" },
+                  { step: 4, title: "Fiyat & Özellikler" }
+                ].map((item) => (
+                  <div key={item.step} className="flex items-center">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3 ${
+                      currentStep >= item.step
+                        ? "bg-[#ff6b6b] text-white"
+                        : "bg-gray-200 text-gray-500"
+                    }`}>
+                      {item.step}
+                    </div>
+                    <span className={`text-sm font-medium ${
+                      currentStep >= item.step ? "text-black" : "text-gray-500"
+                    }`}>
+                      {item.title}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Web Page Title - Only visible on medium screens and larger */}
-          <div className="hidden md:block mb-8">
-            <h1 className="text-2xl font-bold text-black">Add New Listing</h1>
-            <p className="text-gray-500">
-              Fill in the details to list your property
-            </p>
-          </div>
-
-          {/* Form Layout - Grid for desktop, single column for mobile */}
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="md:grid md:grid-cols-3">
-              {/* Left Sidebar - Progress and Tips */}
-              <div className="hidden md:block bg-gray-50 border-r border-gray-100 p-6">
-                <div className="sticky top-6">
-                  <h3 className="font-bold text-black mb-4">
-                    Listing Progress
-                  </h3>
-                  <div className="space-y-3 mb-8">
-                    <div className="flex items-center">
-                      <div className="bg-[#ff8e53] w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold mr-3">
-                        1
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-black">
-                          Basic Information
-                        </p>
-                        <div className="w-full bg-gray-200 h-1 mt-1 rounded-full overflow-hidden">
-                          <div className="bg-[#ff8e53] h-1 rounded-full w-[100%]"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="bg-[#ff8e53] w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold mr-3">
-                        2
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-black">
-                          Property Details
-                        </p>
-                        <div className="w-full bg-gray-200 h-1 mt-1 rounded-full overflow-hidden">
-                          <div className="bg-[#ff8e53] h-1 rounded-full w-[50%]"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="bg-gray-200 w-6 h-6 rounded-full flex items-center justify-center text-gray-500 text-xs font-bold mr-3">
-                        3
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-gray-500">Location</p>
-                        <div className="w-full bg-gray-200 h-1 mt-1 rounded-full"></div>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="bg-gray-200 w-6 h-6 rounded-full flex items-center justify-center text-gray-500 text-xs font-bold mr-3">
-                        4
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-gray-500">Amenities</p>
-                        <div className="w-full bg-gray-200 h-1 mt-1 rounded-full"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h4 className="text-blue-800 font-medium mb-2">
-                      <i className="ri-lightbulb-line mr-1"></i> Tips
-                    </h4>
-                    <ul className="text-sm text-blue-700 space-y-1">
-                      <li>• Add high-quality photos for better visibility</li>
-                      <li>• Be detailed in your property description</li>
-                      <li>• Accurate pricing will attract serious buyers</li>
-                    </ul>
-                  </div>
+          {/* Main Form */}
+          <div className="lg:col-span-3">
+            <div className="bg-white rounded-xl shadow-sm">
+              {/* Mobile Progress */}
+              <div className="lg:hidden border-b border-gray-100 p-4">
+                <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
+                  <span>Adım {currentStep} / 4</span>
+                  <span>{Math.round((currentStep / 4) * 100)}%</span>
+                </div>
+                <div className="w-full bg-gray-200 h-2 rounded-full">
+                  <div 
+                    className="bg-[#ff6b6b] h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${(currentStep / 4) * 100}%` }}
+                  ></div>
                 </div>
               </div>
 
-              {/* Main Form Area */}
-              <div className="md:col-span-2">
-                {/* Form */}
-                <div className="flex-1">
-                  {/* Property Images */}
-                  <div className="px-6 py-5 border-b border-gray-100">
-                    <h2 className="text-lg font-bold text-black mb-4">
-                      Property Images
-                    </h2>
-                    <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
-                      {[1, 2, 3, 4, 5, 6].map((i) => (
-                        <div
-                          key={i}
-                          className="border-2 border-dashed border-gray-200 rounded-xl aspect-square flex flex-col items-center justify-center p-2 hover:border-[#ff8e53] transition-colors cursor-pointer"
-                        >
-                          <i className="ri-add-line text-2xl text-gray-400 mb-1"></i>
-                          <span className="text-xs text-gray-400 text-center">
-                            Add Photo
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <p className="text-xs text-gray-500 mt-3">
-                      You can upload up to 10 photos. First photo will be the
-                      cover.
-                    </p>
-                  </div>
+              {/* Form Content */}
+              <div className="p-6">
+                {renderStep()}
+              </div>
 
-                  {/* Basic Information */}
-                  <div className="px-6 py-5 border-b border-gray-100">
-                    <h2 className="text-lg font-bold text-black mb-4">
-                      Basic Information
-                    </h2>
-
-                    <div className="md:grid md:grid-cols-2 md:gap-6">
-                      <div className="mb-4 md:col-span-2">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Property Title
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="e.g. Modern Apartment in City Center"
-                          className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
-                        />
-                      </div>
-
-                      <div className="mb-4 md:col-span-2">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Description
-                        </label>
-                        <textarea
-                          placeholder="Describe your property..."
-                          className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black h-24 resize-none border border-transparent focus:outline-none focus:border-[#ff8e53]"
-                        ></textarea>
-                      </div>
-
-                      <div className="mb-4 md:col-span-2">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Property Type
-                        </label>
-                        <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-                          {propertyTypes.map((type) => (
-                            <button
-                              key={type.id}
-                              onClick={() => setSelectedPropertyType(type.name)}
-                              className={`flex flex-col items-center justify-center p-3 rounded-xl ${
-                                selectedPropertyType === type.name
-                                  ? "bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white"
-                                  : "bg-gray-50 text-black"
-                              }`}
-                            >
-                              <i className={`${type.icon} text-xl mb-1`}></i>
-                              <span className="text-xs text-center">
-                                {type.name}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="mb-4 md:col-span-1">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Listing Type
-                        </label>
-                        <div className="flex space-x-3">
-                          <button
-                            className={`flex-1 py-3 rounded-xl ${
-                              listingType === "sale"
-                                ? "bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white"
-                                : "bg-gray-50 text-black"
-                            }`}
-                            onClick={() => setListingType("sale")}
-                          >
-                            For Sale
-                          </button>
-                          <button
-                            className={`flex-1 py-3 rounded-xl ${
-                              listingType === "rent"
-                                ? "bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white"
-                                : "bg-gray-50 text-black"
-                            }`}
-                            onClick={() => setListingType("rent")}
-                          >
-                            For Rent
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="mb-4 md:col-span-1">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Price (₺)
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="e.g. 1,500,000"
-                          className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Property Details */}
-                  <div className="px-6 py-5 border-b border-gray-100">
-                    <h2 className="text-lg font-bold text-black mb-4">
-                      Property Details
-                    </h2>
-
-                    <div className="md:grid md:grid-cols-4 md:gap-6">
-                      <div className="mb-4 md:col-span-1">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Bedrooms
-                        </label>
-                        <select className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black appearance-none border border-transparent focus:outline-none focus:border-[#ff8e53]">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5+</option>
-                        </select>
-                      </div>
-                      <div className="mb-4 md:col-span-1">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Bathrooms
-                        </label>
-                        <select className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black appearance-none border border-transparent focus:outline-none focus:border-[#ff8e53]">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4+</option>
-                        </select>
-                      </div>
-                      <div className="mb-4 md:col-span-1">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Area (m²)
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="e.g. 120"
-                          className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
-                        />
-                      </div>
-                      <div className="mb-4 md:col-span-1">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Year Built
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="e.g. 2020"
-                          className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Location */}
-                  <div className="px-6 py-5 border-b border-gray-100">
-                    <h2 className="text-lg font-bold text-black mb-4">
-                      Location
-                    </h2>
-
-                    <div className="md:grid md:grid-cols-2 md:gap-6">
-                      <div className="mb-4 md:col-span-1">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          City
-                        </label>
-                        <select className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black appearance-none border border-transparent focus:outline-none focus:border-[#ff8e53]">
-                          <option>Istanbul</option>
-                          <option>Ankara</option>
-                          <option>Izmir</option>
-                          <option>Antalya</option>
-                          <option>Bursa</option>
-                        </select>
-                      </div>
-
-                      <div className="mb-4 md:col-span-1">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          District
-                        </label>
-                        <select className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black appearance-none border border-transparent focus:outline-none focus:border-[#ff8e53]">
-                          <option>Beşiktaş</option>
-                          <option>Kadıköy</option>
-                          <option>Şişli</option>
-                          <option>Beyoğlu</option>
-                          <option>Üsküdar</option>
-                        </select>
-                      </div>
-
-                      <div className="mb-4 md:col-span-2">
-                        <label className="block text-sm font-medium text-black mb-2">
-                          Address
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="Enter full address"
-                          className="w-full py-3 px-4 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
-                        />
-                      </div>
-
-                      <div className="md:col-span-2">
-                        <div className="bg-gray-100 rounded-xl h-48 md:h-64 flex items-center justify-center mb-3">
-                          <i className="ri-map-2-line text-3xl text-gray-400"></i>
-                        </div>
-                        <p className="text-xs text-gray-500 mb-4">
-                          Drag the pin to mark the exact location
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Amenities */}
-                  <div className="px-6 py-5">
-                    <h2 className="text-lg font-bold text-black mb-4">
-                      Amenities
-                    </h2>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {amenities.map((amenity) => (
-                        <div key={amenity.id} className="flex items-center">
-                          <input
-                            type="checkbox"
-                            id={amenity.id}
-                            className="w-5 h-5 mr-3 accent-[#ff8e53]"
-                          />
-                          <label
-                            htmlFor={amenity.id}
-                            className="text-sm text-black"
-                          >
-                            {amenity.label}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom Buttons - Sticky on mobile, fixed position on web */}
-                <div className="px-6 py-6 border-t border-gray-200 bg-white md:flex md:justify-between md:items-center">
-                  <div className="hidden md:block text-sm text-gray-500 mb-4 md:mb-0">
-                    All fields marked with * are required
-                  </div>
-                  <div className="flex space-x-4">
-                    <button className="flex-1 py-3 md:py-2 md:px-6 border border-gray-300 rounded-xl font-medium text-black hover:bg-gray-50 transition-colors">
-                      Save Draft
-                    </button>
-                    <button className="flex-1 bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white py-3 md:py-2 md:px-8 rounded-xl font-medium hover:shadow-md transition-shadow">
-                      Publish Listing
-                    </button>
-                  </div>
-                </div>
+              {/* Form Actions */}
+              <div className="border-t border-gray-100 p-6 flex justify-between">
+                <button
+                  onClick={prevStep}
+                  disabled={currentStep === 1}
+                  className="px-6 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Geri
+                </button>
+                
+                {currentStep === 4 ? (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!isStepValid() || loading}
+                    className="px-6 py-3 bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white rounded-lg font-medium hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center"
+                  >
+                    {loading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Oluşturuluyor...
+                      </>
+                    ) : (
+                      "İlanı Oluştur"
+                    )}
+                  </button>
+                ) : (
+                  <button
+                    onClick={nextStep}
+                    disabled={!isStepValid()}
+                    className="px-6 py-3 bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white rounded-lg font-medium hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  >
+                    İleri
+                  </button>
+                )}
               </div>
             </div>
           </div>

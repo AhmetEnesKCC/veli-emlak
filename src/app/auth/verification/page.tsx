@@ -1,36 +1,74 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
+import { authAPI } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
-export default function VerificationPage() {
-  const [verificationCode, setVerificationCode] = useState(["", "", "", ""]);
-  const inputRefs = useRef([]);
+export default function SignupPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    age: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const router = useRouter();
 
-  // Focus on first input on component mount
-  useEffect(() => {
-    if (inputRefs.current[0]) {
-      inputRefs.current[0].focus();
-    }
-  }, []);
-
-  const handleChange = (index, value) => {
-    if (value.length <= 1) {
-      const newCode = [...verificationCode];
-      newCode[index] = value;
-      setVerificationCode(newCode);
-
-      // Move to next input if current one is filled
-      if (value !== "" && index < 3) {
-        inputRefs.current[index + 1].focus();
-      }
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleKeyDown = (index, e) => {
-    // Move to previous input on backspace if current input is empty
-    if (e.key === "Backspace" && verificationCode[index] === "" && index > 0) {
-      inputRefs.current[index - 1].focus();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      setError("Şifreler eşleşmiyor");
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Şifre en az 6 karakter olmalıdır");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.age || parseInt(formData.age) < 18) {
+      setError("Yaş 18 veya üzeri olmalıdır");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await authAPI.signup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        age: parseInt(formData.age),
+      });
+
+      if (response.status === 201) {
+        // Redirect to login page
+        router.push('/auth/login');
+      } else {
+        setError(response.message || 'Kayıt başarısız');
+      }
+    } catch (err) {
+      setError('Kayıt olurken bir hata oluştu');
+      console.error('Signup error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,64 +80,166 @@ export default function VerificationPage() {
           <Link href="/auth/register" className="p-2 mr-4">
             <i className="ri-arrow-left-s-line text-xl text-black"></i>
           </Link>
-          <h1 className="text-xl font-bold text-black">Verification</h1>
+          <h1 className="text-xl font-bold text-black">Hesap Oluştur</h1>
         </div>
       </div>
 
-      {/* Content */}
+      {/* Form */}
       <div className="px-6 py-4 flex-1">
-        <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] rounded-full flex items-center justify-center mx-auto mb-6">
-            <i className="ri-mail-send-line text-3xl text-white"></i>
-          </div>
-          <h2 className="text-xl font-bold text-black mb-2">
-            Verify Your Email
-          </h2>
-          <p className="text-sm text-gray-500">
-            We've sent a verification code to
-            <br />
-            <span className="font-medium text-black">example@email.com</span>
-          </p>
-        </div>
+        <p className="text-sm text-gray-500 mb-8">
+          Hesabınızı oluşturmak için bilgilerinizi girin.
+        </p>
 
-        {/* Verification Code Input */}
-        <div className="mb-8">
-          <label className="block text-sm font-medium text-black mb-4 text-center">
-            Enter the 4-digit code
-          </label>
-          <div className="flex justify-between">
-            {[0, 1, 2, 3].map((index) => (
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          {/* Name */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-black mb-2">
+              Ad Soyad
+            </label>
+            <div className="relative">
+              <i className="ri-user-line absolute left-4 top-3.5 text-gray-400"></i>
               <input
-                key={index}
-                ref={(el) => (inputRefs.current[index] = el)}
                 type="text"
-                maxLength={1}
-                value={verificationCode[index]}
-                onChange={(e) => handleChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-[60px] h-[60px] text-center text-2xl font-bold bg-gray-100 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#ff8e53]"
+                name="name"
+                placeholder="Adınızı ve soyadınızı girin"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
+                required
+                disabled={loading}
               />
-            ))}
+            </div>
           </div>
-        </div>
 
-        {/* Resend Code */}
-        <div className="text-center mb-8">
-          <p className="text-sm text-gray-500 mb-2">Didn't receive the code?</p>
-          <button className="text-sm font-medium text-black">
-            Resend Code <span className="text-gray-400">(30s)</span>
+          {/* Email */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-black mb-2">
+              E-posta Adresi
+            </label>
+            <div className="relative">
+              <i className="ri-mail-line absolute left-4 top-3.5 text-gray-400"></i>
+              <input
+                type="email"
+                name="email"
+                placeholder="E-posta adresinizi girin"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
+                required
+                disabled={loading}
+              />
+            </div>
+          </div>
+
+          {/* Age */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-black mb-2">
+              Yaş
+            </label>
+            <div className="relative">
+              <i className="ri-calendar-line absolute left-4 top-3.5 text-gray-400"></i>
+              <input
+                type="number"
+                name="age"
+                placeholder="Yaşınızı girin"
+                value={formData.age}
+                onChange={handleChange}
+                min="18"
+                max="100"
+                className="w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
+                required
+                disabled={loading}
+              />
+            </div>
+          </div>
+
+          {/* Password */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-black mb-2">
+              Şifre
+            </label>
+            <div className="relative">
+              <i className="ri-lock-line absolute left-4 top-3.5 text-gray-400"></i>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Şifrenizi girin"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
+                required
+                disabled={loading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                disabled={loading}
+              >
+                <i
+                  className={`${
+                    showPassword ? "ri-eye-line" : "ri-eye-off-line"
+                  } text-gray-400`}
+                ></i>
+              </button>
+            </div>
+          </div>
+
+          {/* Confirm Password */}
+          <div className="mb-8">
+            <label className="block text-sm font-medium text-black mb-2">
+              Şifre Tekrar
+            </label>
+            <div className="relative">
+              <i className="ri-lock-line absolute left-4 top-3.5 text-gray-400"></i>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Şifrenizi tekrar girin"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="w-full py-3 px-4 pl-12 bg-gray-100 rounded-xl text-black border border-transparent focus:outline-none focus:border-[#ff8e53]"
+                required
+                disabled={loading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                disabled={loading}
+              >
+                <i
+                  className={`${
+                    showConfirmPassword ? "ri-eye-line" : "ri-eye-off-line"
+                  } text-gray-400`}
+                ></i>
+              </button>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white py-4 rounded-xl font-medium mb-6 disabled:opacity-50"
+          >
+            {loading ? "Hesap oluşturuluyor..." : "Hesap Oluştur"}
           </button>
-        </div>
-      </div>
+        </form>
 
-      {/* Verify Button */}
-      <div className="px-6 py-6 border-t border-gray-100">
-        <Link
-          href="/auth/user-type"
-          className="block w-full bg-gradient-to-r from-[#ff6b6b] to-[#ff8e53] text-white py-4 rounded-xl font-medium text-center"
-        >
-          Verify and Continue
-        </Link>
+        {/* Login Link */}
+        <div className="text-center">
+          <span className="text-sm text-gray-500">Zaten hesabınız var mı? </span>
+          <Link href="/auth/login" className="text-sm font-bold text-black">
+            Giriş Yap
+          </Link>
+        </div>
       </div>
     </div>
   );
